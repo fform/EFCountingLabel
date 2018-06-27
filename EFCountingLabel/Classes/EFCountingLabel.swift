@@ -78,6 +78,7 @@ open class EFCountingLabel: UILabel {
     public var formatBlock: ((CGFloat) -> String)?
     public var attributedFormatBlock: ((CGFloat) -> NSAttributedString)?
     public var completionBlock: (() -> Void)?
+    public var progressBlock: ((_ progress:CGFloat, _ delta:TimeInterval, _ totalTime:CGFloat) -> Void)?
 
     private var startingValue: CGFloat!
     private var destinationValue: CGFloat!
@@ -182,6 +183,8 @@ open class EFCountingLabel: UILabel {
 
         self.setTextValue(self.currentValue())
 
+        self.progressBlock?(self.progress, self.lastUpdate, self.totalTime)
+        
         if self.progress == self.totalTime {
             self.runCompletionBlock()
         }
